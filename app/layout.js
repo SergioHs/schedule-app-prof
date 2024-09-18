@@ -1,7 +1,10 @@
+import './globals.css';
+import { TaskProvider } from '../contexts/TaskContext'; // Ajuste o caminho conforme necessário
+import { AuthProvider } from '../contexts/AuthContext'; // Ajuste o caminho conforme necessário
+import RegisterServiceWorker from './register-service-worker';
+import PrivateRoute from '../components/PrivateRoute'; // Ajuste o caminho conforme necessário
 import localFont from "next/font/local";
-import "./globals.css";
-import { TaskProvider } from "@/contexts/TaskContext";
-import RegisterServiceWorker from "./register-service-worker";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -20,20 +23,19 @@ export const metadata = {
   manifest: '/manifest.json'
 };
 
-export default function RootLayout({ children }) {
+function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={geistSans.className}>
+        <AuthProvider>
           <TaskProvider>
-                {children}
-            <RegisterServiceWorker/>
+              {children}
           </TaskProvider>
+        </AuthProvider>
+        <RegisterServiceWorker />
       </body>
     </html>
   );
 }
+
+export default RootLayout;
