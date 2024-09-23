@@ -2,28 +2,40 @@
 'use client'
 
 import { useState } from 'react';
-import { signIn } from '../public/utils/firebase'; // Ajuste o caminho conforme necessário
-import { auth } from '../public/utils/firebase'; // Ajuste o caminho conforme a estrutura do projeto
-import { useRouter } from 'next/navigation'; // Atualize o caminho conforme necessário
+import { signIn } from '../public/utils/firebase'; 
+import { useAuth } from '../contexts/AuthContext'; 
+import { useRouter } from 'next/navigation'; 
 
-export default function Home() {
+export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const router = useRouter(); // Adicione isso para usar o router
-
+  const { user, loading } = useAuth(); 
+  const router = useRouter(); 
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    setError('');
 
     try {
-        await signIn(email, password);
-        router.push('/home'); // Redireciona para a página /home após login
+      await signIn(email, password);
+      router.push('/home'); 
     } catch (error) {
-        console.error("Erro ao fazer login:", error);
-        // Lógica para lidar com erros (mostrar mensagem de erro, etc.)
+      console.error("Erro ao fazer login:", error);
+      setError('Erro ao fazer login. Verifique suas credenciais.');
+      router.push('/home');
+
     }
-};
+  };
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Verificando autenticação...</div>;
+  }
+
+  if (user) {
+    return null; 
+    
+  }
 
   return (
     <div className="min-h-screen p-6">

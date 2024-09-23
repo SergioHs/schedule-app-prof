@@ -1,10 +1,9 @@
 import './globals.css';
-import { TaskProvider } from '../contexts/TaskContext'; // Ajuste o caminho conforme necessário
-import { AuthProvider } from '../contexts/AuthContext'; // Ajuste o caminho conforme necessário
+import { AuthProvider } from '../contexts/AuthContext'; 
 import RegisterServiceWorker from './register-service-worker';
-import PrivateRoute from '../components/PrivateRoute'; // Ajuste o caminho conforme necessário
+import PrivateRoute from '../components/PrivateRoute'; 
 import localFont from "next/font/local";
-
+import Navbar from '../components/Navbar';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,9 +27,8 @@ function RootLayout({ children }) {
     <html lang="en">
       <body className={geistSans.className}>
         <AuthProvider>
-          <TaskProvider>
+          <Navbar />
               {children}
-          </TaskProvider>
         </AuthProvider>
         <RegisterServiceWorker />
       </body>
